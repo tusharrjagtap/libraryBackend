@@ -1,7 +1,5 @@
 package com.app.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.app.pojos.User;
 import com.app.pojos.User;
 import com.app.service.IUserService;
 
@@ -32,11 +28,11 @@ public class UserController {
 	}
 	//add request handling method to send all emps to the caller(front end) : getting resources : GET
 //	@GetMapping
-////	public List<User> getAllUserDetails()
-////	{
-////		System.out.println("in get all user");
-////		return userService.getAll();
-////	}
+//	public List<User> getAllUserDetails()
+//	{
+//		System.out.println("in get all user");
+//		return userService.getAll();
+//	}
 	@GetMapping
 	public ResponseEntity<?> getAllUserDetails()
 	{
@@ -70,19 +66,21 @@ public class UserController {
 			// invoke service layer's method
 			return new ResponseEntity<>(userService.fetchUserDetails(userId), HttpStatus.OK);
 		}catch (Exception e) {
-			System.out.println("err in get emp dtls"+e);
+			System.out.println("err in get user dtls"+e);
 			return new ResponseEntity<> (e.getMessage(),HttpStatus.NOT_FOUND);
 			
 			
 		}
 //
 	}
+	
+	
 	//add request handling method to update existing emp details (update a  resource) : PUT
 		@PutMapping
 		public User updateUserDetails(@RequestBody  User e) //de-serial (un marshalling) 
 		{
 			//e : DETACHED POJO , containing updated state
-			System.out.println("in add user "+e);
+			System.out.println("in putmapping user "+e);
 			return userService.addOrUpdateUserDetails(e);
 	}
 }
