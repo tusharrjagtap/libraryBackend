@@ -9,8 +9,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class BaseEntity {
 	@Id
-	 @Column(name="user_id")
-   
+	@Column(name="user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 

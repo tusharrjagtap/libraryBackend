@@ -15,7 +15,8 @@
 	<description>Spring Boot project as backend for full stack</description>
 	<properties>
 		<java.version>11</java.version>
-	</properties>
+<property name="hibernate.current_session_context_class">thread</property>	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -20,14 +20,19 @@ import com.app.enums.Category;
 
 @Entity
 @Table(name = "book")
-public class Book  extends BaseEntity {
+public class Book {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "book_id")
+	private Integer bid;
+	
     @Column(name = "title")
     private String title;
 
     
-    @Column(name = "availability_count")
-    private Integer availabilityCount;
+    @Column(name = "no_of_copies")
+    private Integer noOfCopies;
 
     @Column(name = "author")
     private String  author;
@@ -37,9 +42,6 @@ public class Book  extends BaseEntity {
     
     @Column(name = "language")
     private String  language;
-    
-    @Column(name = "seller_name")
-    private String  seller;
     
     @Enumerated(EnumType.STRING)
     private Category  category;
@@ -58,20 +60,28 @@ public class Book  extends BaseEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Book(String title, Integer availabilityCount, String author, String publisher, String language,
-			String seller, Category category, Date createdAt, Date updatedAt) {
-		super();
+	public Book(String title, Integer noOfCopies, String author, String publisher, String language,
+			 Category category, Date createdAt, Date updatedAt) {
+		
 		this.title = title;
-		this.availabilityCount = availabilityCount;
+		this.noOfCopies = noOfCopies;
 		this.author = author;
 		this.publisher = publisher;
 		this.language = language;
-		this.seller = seller;
+		
 		this.category = category;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 
+	
+	public Integer getBid() {
+		return bid;
+	}
+	public void setBid(Integer bid) {
+		this.bid = bid;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -80,12 +90,12 @@ public class Book  extends BaseEntity {
 		this.title = title;
 	}
 
-	public Integer getAvailabilityCount() {
-		return availabilityCount;
+	public Integer getNoOfCopies() {
+		return noOfCopies;
 	}
 
-	public void setAvailabilityCount(Integer availabilityCount) {
-		this.availabilityCount = availabilityCount;
+	public void setNoOfCopies(Integer noOfCopies) {
+		this.noOfCopies = noOfCopies;
 	}
 
 	public String getAuthor() {
@@ -110,14 +120,6 @@ public class Book  extends BaseEntity {
 
 	public void setLanguage(String language) {
 		this.language = language;
-	}
-
-	public String getSeller() {
-		return seller;
-	}
-
-	public void setSeller(String seller) {
-		this.seller = seller;
 	}
 
 	public Category getCategory() {
@@ -146,11 +148,14 @@ public class Book  extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", availabilityCount=" + availabilityCount + ", author=" + author
-				+ ", publisher=" + publisher + ", language=" + language + ", seller=" + seller + ", category="
+		return "Book [bid=" + bid+"title=" + title + ", noOfCopies=" + noOfCopies + ", author=" + author
+				+ ", publisher=" + publisher + ", language=" + language +  ", category="
 				+ category + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
+
 	
+
+
 	
 	
 	

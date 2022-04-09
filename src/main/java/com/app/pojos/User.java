@@ -1,20 +1,26 @@
 package com.app.pojos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.app.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name="lab_user")
@@ -51,11 +57,11 @@ public class User extends BaseEntity  {
 	//@NotEmpty(message="College ID must be supplied")
 	private String collegeId;
 	
-	@Column(name = "num_of_books_present",length = 30)
-    private Integer numOfBooksPresent;
+	@Column(name = "count_of_issue",length = 30)
+     private Integer countOfIssues = 0;
     
 	@Column(name = "fine",length = 30)
-    private Float fine;
+    private Integer fine;
 	
 	@Column(length = 30)
 	private String email;
@@ -65,6 +71,10 @@ public class User extends BaseEntity  {
 	
 	@Column(length = 30)
 	private String password;
+	
+	@ElementCollection
+	private List<Issue> issuedBooks = new ArrayList<Issue>(); 
+	
 
 	public User() {
 		
@@ -73,7 +83,7 @@ public class User extends BaseEntity  {
 
 	public User(@Length(min = 4, max = 20, message = "Invalid First Name length!!!!") String first_name,
 			@Length(min = 4, max = 20, message = "Invalid Last Name length!!!!") String lastName, String address,
-			long mobile, LocalDate dob, UserType role, String collegeId, Integer numOfBooksPresent, Float fine,
+			long mobile, LocalDate dob, UserType role, String collegeId, Integer fine,
 			String email, Long addhar, String password) {
 		super();
 		this.first_name = first_name;
@@ -83,18 +93,19 @@ public class User extends BaseEntity  {
 		this.dob = dob;
 		this.role = role;
 		this.collegeId = collegeId;
-		this.numOfBooksPresent = numOfBooksPresent;
+		
 		this.fine = fine;
 		this.email = email;
 		this.addhar = addhar;
 		this.password = password;
 	}
 	
-	public Float getFine() {
+	
+	public Integer getFine() {
 		return fine;
 	}
 
-	public void setFine(Float fine) {
+	public void setFine(Integer fine) {
 		this.fine = fine;
 	}
 
@@ -104,12 +115,12 @@ public class User extends BaseEntity  {
 		return email;
 	}
 
-	public Integer getNumOfBooksPresent() {
-		return numOfBooksPresent;
+	public Integer getCountOfIssues() {
+		return countOfIssues;
 	}
 
-	public void setNumOfBooksPresent(Integer numOfBooksPresent) {
-		this.numOfBooksPresent = numOfBooksPresent;
+	public void setCountOfIssues(Integer countOfIssues) {
+		this.countOfIssues = countOfIssues;
 	}
 
 	public void setEmail(String email) {
@@ -132,16 +143,40 @@ public class User extends BaseEntity  {
 		this.password = password;
 	}
 
+	
+	@JsonIgnore
+	public List<Issue> getIssuedBooks() {
+		return issuedBooks;
+	}
+	public void setIssuedBooks(List<Issue> issuedBooks) {
+		this.issuedBooks = issuedBooks;
+	}
 
-
+//	public void addIssueRecord(Issue issueRecord)
+//	{
+//		this.issuedBooks.add(issueRecord);
+//		issueRecord.setUser_id(this);
+//	}
+//
+//	public void removeIssueRecord(Issue issueRecord)
+//	{
+//		this.issuedBooks.remove(issueRecord);
+//		issueRecord.setUser_id(null);
+//	}
 	
 	@Override
 	public String toString() {
 		return "User [first_name=" + first_name + ", lastName=" + lastName + ", address=" + address + ", mobile="
-				+ mobile + ", dob=" + dob + ", role=" + role + ", collegeId=" + collegeId + ", numOfBooksPresent="
-				+ numOfBooksPresent + ", fine=" + fine + ", email=" + email + ", addhar=" + addhar + ", password="
+				+ mobile + ", dob=" + dob + ", role=" + role + ", collegeId=" + collegeId + ", CountOfIssued="
+				+ countOfIssues + ", fine=" + fine + ", email=" + email + ", addhar=" + addhar + ", password="
 				+ password + "]";
 	}
+
+
+
+	
+
+
 
 
 

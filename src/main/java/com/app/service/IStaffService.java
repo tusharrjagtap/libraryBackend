@@ -9,4 +9,7 @@ public interface IStaffService {
 	Staff addOrUpdateStaffDetails(Staff transientStaff);
 	String deleteStaffDetails(int id);
 	Staff fetchStaffDetails(int StaffId);
+	Staff findByEmailAndPassword(String email, String password);
+	Staff findByEmail(String email);
+	boolean resetPassword(String email, String password, String newPassword);
 }

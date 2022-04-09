@@ -1,6 +1,8 @@
 package com.app.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.pojos.ResetPassword;
 import com.app.pojos.Staff;
+import com.app.pojos.User;
 import com.app.service.IStaffService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -81,4 +85,53 @@ public class StaffController {
 			return staffService.addOrUpdateStaffDetails(e);
 		}
 	
+		
+		@PostMapping("/login")
+		public ResponseEntity<?> login(@RequestBody Staff staff){
+			Map<String,String> map = new HashMap<>();
+			try {
+				Staff staffByEmailAndPassword = staffService.findByEmailAndPassword(staff.getEmail(), staff.getPassword());
+				if (staffByEmailAndPassword!=null) {
+					map.put("staffID", staffByEmailAndPassword.getId().toString());
+					map.put("email", staffByEmailAndPassword.getEmail());
+					map.put("token", "123456");
+					map.put("name", staffByEmailAndPassword.getFirst_name());
+					map.put("role", "STAFF");
+					map.put("address",staffByEmailAndPassword.getAddress());
+					//map.put("role", staff.getRole());//staffByEmailAndPassword.getRole()
+					//map.put("role", (staff.getRole()).toString());
+				
+					//return new ResponseEntity<>(map,HttpStatus.OK);
+					return new ResponseEntity<>(map,HttpStatus.OK);
+				} else {
+					map.clear();
+					map.put("message","Invalid staff");
+					map.put("Token",null);
+					return new ResponseEntity<>(map,HttpStatus.UNAUTHORIZED);
+					//return "/staff/login";
+				}
+			} catch (Exception e) {
+				map.clear();
+				map.put("message",e.getMessage());
+				map.put("Token",null);
+				return new ResponseEntity<>(map,HttpStatus.UNAUTHORIZED);
+				//return "/staff/login";
+			}
+		}
+		
+
+		@GetMapping("/email/{email}")
+		public ResponseEntity<Staff> getStaffByEmail(@PathVariable String email) {
+				Staff staff = staffService.findByEmail(email);
+			return new ResponseEntity<Staff>(staff, HttpStatus.CREATED);
+		}
+	
+		@PostMapping("/reset")
+		public boolean reset(@RequestBody ResetPassword resetPass) {
+			
+			return staffService.resetPassword(resetPass.getEmail(), resetPass.getPassword(),resetPass.getNewPassword());
+			
+		}
+		
+		
 }

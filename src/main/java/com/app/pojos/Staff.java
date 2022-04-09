@@ -255,6 +255,8 @@ public class Staff extends BaseEntity {
 				+ ", bonus=" + bonus + ", leaving_date=" + leaving_date + "]";
 	}
 
+
+
 	
 	
 	
